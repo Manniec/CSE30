@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en" style="padding-top: 80px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Integer Representation In Memory</title>
+
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+
+    <script src="jquery/jquery.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        .mobile-only {
+            display: none;
+        }
+
+        .game-btn{
+            width: 70px;
+            height: 70px;
+        }
+
+        .game-word{
+            font-size: 5.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .fixed-height{
+            height:241px;
+        }
+
+        .mobile-spaced{
+            margin-bottom: 0;
+        }
+        
+        .large-spaced{
+            margin-top: 50px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .mobile-only {
+                display: block;
+            }
+            .game-btn{
+                width: 95px;
+                height: 70px;
+            }
+
+            .fixed-height{
+                padding-top:34px;
+                height:100px;
+            }
+            .game-word{
+                font-size: 2.0rem;
+                font-weight: 300;
+                line-height: 1.2;
+            }
+            .mobile-row{
+                margin-top:10px;
+                margin-bottom:10px;
+            }
+            .mobile-spaced{
+                margin-bottom:15px;
+            }
+            .large-spaced{
+                margin-top:0;
+            }
+        }
+
+        .kw{
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace; font-size: 13px; font-style: normal;
+            color: magenta;
+            font-weight: bold;
+        }
+
+        .code{
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monaco, "Bitstream Vera Sans Mono", monospace; font-size: 13px; font-style: normal;
+        }
+
+        .outlined{
+            border: 1px solid lightgrey;
+            margin-left:  4px;
+            margin-right: 4px;
+            border-radius: 4px;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Integer Representation In Memory</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+
+    <main role="main">
+        <div class="container">
+            
+            <h1>Integer Representation</h1>
+
+            <p>Assume we have an <span class="kw">int</span>, that is pointed to by the pointer <span class="code">p</span>. Use the text box below to set the value of this integer. The 4 boxes below represent the 4 bytes of storage needed for this <span class="kw">int</span>. Click the Show button to see the contents of each memory location.
+            <div class="container">
+                <div class ="row">
+                    <div class="col">
+                        <input class="form-control" id="intRepInput">
+                    </div>
+                    <div class="col">
+                        <div class="row" style="height:38px">
+                            <div class="col-2 outlined" id="byte1">
+                                
+                            </div>
+                            <div class="col-2 outlined" id="byte2">
+                                
+                            </div>
+                            <div class="col-2 outlined" id="byte3">
+                                
+                            </div>
+                            <div class="col-2 outlined" id="byte4">
+                                
+                            </div>
+                        </div>
+                        <div class="row" style="height:38px">
+                            <div class="col-2" style="text-align: center">
+                                &#8593;<br><pre>*p</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button id="intRepBtn"class="btn btn-primary">Show</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
