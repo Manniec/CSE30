@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="en" style="padding-top: 50px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>UC Merced Web App Demo</title>
+
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+
+    <script src="jquery/jquery.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        .mobile-only {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+        .mobile-only {
+            display: block;
+        }
+}
+    </style>
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">UC Merced Web App Demo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <main role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">Hello, World!</h1>
+                <p>This is a template for a simple website. It is used at UC Merced as a starting point for programming exercises and projects. Click button below to learn more about UC Merced.</p>
+                <p id="jumbotron-text"><p>
+                <p><a class="btn btn-primary btn-lg" target="_blank" href="https://www.ucmerced.edu" role="button">Learn more</a></p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="margin-bottom:20px;">
+                    <h2>Super Bowl LIII</h2>
+                    <p>Click to reveal score</p>
+                    <p><a class="btn btn-secondary" href="javascript:clickScore()" role="button">Show Score »</a></p>
+                    <table cellpadding="5">
+                        <tr><td id="home-team"></td><td id="home-score"></td></tr>
+                        <tr><td id="away-team"></td><td id="away-score"></td></tr>
+                    </table>
+                    <hr class="mobile-only">
+                </div>
+                
+                <div class="col-md-4" style="margin-bottom:20px;">
+                    <h2>Quadratic Equation</h2>
+                    <p>Enter coefficients</p>
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" id="input-a" placeholder="a">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" id="input-b" placeholder="b">
+                        </div>
+                        <div class="col">
+                            <input class="form-control" id="input-c" placeholder="c">
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top:15px;"><a class="btn btn-secondary" href="javascript:clickSolve()" role="button">Solve »</a></p>
+                    <table cellpadding="5">
+                        <tr><td id="x1"></td></tr>
+                        <tr><td id="x2"></td></tr>
+                    </table>
+                    <hr class="mobile-only">
+                </div>
+                
+                <div class="col-md-4" style="margin-bottom:20px;">
+                    <h2>Counting Letters</h2>
+                    <p>Enter a string below</p>
+                    <p><input class="form-control" id="input-freq"></p>
+                    <p><a class="btn btn-secondary" href="javascript:clickCount()" role="button">Count »</a></p>
+                    <p id="freq-result"></p>
+                    <hr class="mobile-only">
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>© University of California, Merced 2019</p>
+    </footer>
+</body>
+
+</html>
