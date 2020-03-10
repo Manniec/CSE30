@@ -1,0 +1,111 @@
+Adjacency Matrix
+    - initalize a nby n matrix where n is the number of verticies, and fill it with zeros
+    - now thee is a row and a column for each vertex
+    - if thre is an undirected edge between verticies i and j  put a 1 in cell ij and ji
+
+    A is connected to itself (every node is connected to itself)
+    |   |A  | b | c |
+     A  |1  |1  |1
+     b  |0  |1  |1
+     c  |0  |1  |1
+
+              >  b       (direcitonality matters)
+            /   ^
+        a       |
+            \   ,
+               > c
+
+    if all of them things are connectd to eachother you have an adjacency matrix of all 1
+
+Adjacency list
+    - create an array of n pointers to list
+    - the index of each cell corresponds to a vertex
+    - for each vertex, create a (linked) list of verticies it is adjacent to
+    - if directed, only use appropriate direction, if undirected, write both
+
+    A[*]|[]
+    B[*]|
+    C[*]|
+    - looks kinda like a hashtable
+    - reason why? Adjacency lists prefered to adjacency matrix.
+    - usually you want to know who are the neighbors of a particular vertex
+    - if you go to an adjacency matrix, you need to do 3 comparisons (look at the values of each row) finding neighbors takes O(n)
+    - if you have a adjacency list, then you already have a list of all the neighbors of A. its just the entire linked list after A,
+        - its O(1) no need to search anything
+    
+Searching
+    - all graph algorithms are ways to answer search wuestins
+    - can you go from one place to another? yes or no? give a list of edges you have to follow to get there
+    - graph theory (be comfortable with algoritms)
+
+Breath First Searching
+- is a binary tree a graph? yes! everything is a graph
+- a non binary search tree is still a graph (if everything is out of place, and its not a binary search tree, its still a graph)
+
+        0           -> ask have you arrived? no!
+       / \          -> add neighbors to queue for processing Q: 1, 2
+      1   2         -> first go to 1, is that your destination? no! so remove 1 from the queue put its neighbors in queue for processing 
+     / \   \        -> go to the next item in the queue Q: 2, 3, 4, so visit 2 and is it the destination? no remove it, add its neighbors,
+    3   4   5          go to the next one in Q: 3, 4, 5
+                    -> go to the next one 3? is that the destination, no, remove from queue and add neighbors. no neighbors
+                       Q: 4, 5
+- this is breath first bc it searches as wide as possible before going down. (everything at level imidiately after 0 first)
+- if you never got t0 5, it means its not reachable from 0, but doesnt tell you if a node appears. 
+- algoritm doesnt tell you if the node exists in the graph, it tells you if a path exists between two points in the graph
+- exploration happened in breath first manner
+Finding the shortest path
+      0 (start)   6  
+     /  |   \   /  |
+    1   2 --- 3   /
+     \ / \       /
+      4 --  5 destination
+
+Q: 1,2,3
+Parents:    0   0   0   
+        0   1   2   3   4   5   6
+
+Visit 1:
+Q: 2,3,4
+Parents:    0   0   0   1
+        0   1   2   3   4   5   6
+Visit 2:
+Q: 3,4,5
+Parents:    0   0   0   1   2
+        0   1   2   3   4   5   6
+                            ^ only one of 2's parents that hasn't already been visited (dont need to re-add 3,4,5)
+Visit 3:
+Q: 4,5,6
+Parents:    0   0   0   1   2   3
+        0   1   2   3   4   5   6
+
+Visit 4:
+Q: 5,6
+Parents:    0   0   0   1   2   3
+        0   1   2   3   4   5   6
+                        ^ all the neighbors of 4 have already been added so dont do anything
+Visit 5:
+This is the destination. Now you can give thme the shortest path-> work backwards
+- rn your at 5, parent of 5? is 2, go to 2, who is the parent of 2? 0, who is the parent of 0? no one
+- 5,2,0 is reverse shortest path form desitination to sorce
+- depending on the meaning of the verticiecs and graph you are finding something different each time
+- imagine the verties are people and lines are friendships/social networking, 0 is me, 5 is another person im not friends with
+- breathfirst search of shortest path to become friends with 5
+- different problem? different meaning for each verticies 
+
+Depth first search
+- opposite of of breath first search, go as deep as possible instead of wide
+- different advantages depending on what the graph looks like
+        0           
+       / \          
+      1   2         
+     / \   \       
+    3   4   5  
+Visit 1:
+Q: 1, 2 -> Q: 2 -> Q:3,4,2 (put neighbors of 1 at front of queue)
+Visit 3:
+Q: 3,4,2 -> Q:4,2 
+Visit 4: 
+Q: 4,2 -> Q:2
+Visit 2:
+Q: 2, 5 -> Q:5
+Visit 5 : Arrived! (actually not a queue. Its a stack! your always adding to the front)

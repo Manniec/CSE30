@@ -1,0 +1,137 @@
+Lab2 Notes:
+- paramaters stored in req variable
+- UI has all the html
+- request response
+- From now on we will be returning json objects
+
+js. 
+function clickScore(){
+    $.get("superbowl", {}, response){
+        var details = JSON.parse(response)
+    }
+
+}
+
+C++:
+- good thing is you declare variable types so you know data type of everything
+- also specifying return types is usefull (no need for trial and error like in JS)
+
+
+Create a secion of the page where the user can enter a string of characters, and put a "Count" button. 
+When clicked, it should display the most frequently occuring character, as well as the amount of times it appears
+- 1st step: unit tests (test driven development philosophy). You know what problem your solving and what 
+  the code needs to do so why not start with unit tests?
+    - You need to return more than one value, so need to return a JSON object 
+    - Takes in a string
+- 2nd step: strart with myLib.h (declare signature)
+    ucm::json countMostFreqChar(std::string);
+    - Note: we now have own name space!!
+    - when defining funcitons you dont need to name the paramaters. You can just put the data type. 
+      (Just need to know it returns 3 floats)
+        ucm::jason quadratic(float, float, float);
+- Back to test.cpp, define test
+    Context(CountFreqFunction){
+        Spec(SimpleTest){
+
+            std::string input = "ABACADAE";
+            ucm::json result;
+            result["character"] = 'A';
+            result["frequency"] = 4;
+
+            Assert::That(compare(countMostFreqChar(input), result));
+        }
+    };
+- 3rd step: Create the actual funciton (only work intensive step)
+    ucm::json countMostFreqChar(std::string input){ //<-now that you are implementing you need to name paramaters
+        //Consider String ABACADAE
+        //Create a hash table for each character that appears in the string, indicating how many times it appears
+        /*We will store this in a hash table:
+            A : 4
+            B : 1
+            C : 1
+            D : 1
+            E : 1
+        then take the maximum*/
+
+        std::undordered_map<char, int> occurTable;// <-name
+                            //(first is always key, second is value)
+        //standard empty hash table
+
+        for(int i = 0; i < input.size(); i++){
+            //Check if current char appears in table
+            auto check = occurTable.find(input[i]);
+            //if it is found, increase value by 1
+            //if not found, insert key with value 1
+            if (check != occurTable.end()){
+                //We found it 
+                //Means that occurTable[input[i]] exists so you can increment it
+                occurTable[input[i]]++
+            }else{
+                //didnt find it so need to make it
+                occurTable.insert({input[i], 1});
+            }
+        }
+
+        // iterating through a hashtable
+        /*
+            for( auto itr : occurTable){
+                //variable itr -> "itterate" will take on each key:value pair in occurTable
+                char k = itr.first; //key
+                int v = itr.second; //value
+
+                std::count << k << " : " << v << std::endl;
+                //Now find the maximum value and its corresponding key
+            }
+        */
+
+        //Now find the maximum value and its corresponding key
+        // 1.) Declare maximum variables to store maximum values
+        char K; //max key
+        int max = 0; //max val first set to minimum number of occurances is 0 (no negatives)
+
+         for( auto itr : occurTable){
+            //variable itr -> "itterate" will take on each key:value pair in occurTable
+            char k = itr.first; //key
+            int v = itr.second; //value
+
+                if v(>= max){
+                    max = v;
+                    K = k;
+                }
+
+            //Return the result as a JSON
+            ucm::json result;
+
+            result ["character"] = K;
+            result ["frequency"] = max; 
+
+            return result;
+        
+        }
+    }
+
+Back to app.cpp
+- 
+server.route("/count_freq", [](const request& req, response& res){
+    if (req.url_params.hasKey("char_string")){ <- if info is provided
+
+        std::string str = req.url_params.get("char_string")
+    }else{
+        res.sendError400();
+    }
+})
+
+- now you have a web service that can do what the function did
+- main.js
+    function clickCount(){
+        var input = $("#input-freq").val();
+
+        $.get("/count_freq", {"char_string" : input}, function
+        (response){
+            
+        })
+    }
+
+
+
+

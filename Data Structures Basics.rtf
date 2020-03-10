@@ -1,0 +1,178 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf500
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Data Structures\
+\
+Array: contiguous storage, size predefined\
+\'97 the next element in the array is exactly (size of) locations to the right of the current one (no gaps between elements. everything is stored next to the element of an index before it. \
+\'97 contiguous storage\
+\'97 fast retrieval \
+\'97 slow insertion (because may have to resize it.)\
+\'97 insertions at beginning slower\
+arr\'97> [][][][][][][]\
+\
+\
+Linked List: Take the opposite approach. assume that there may be a gap between every element. Therefore every element in addition to its data has to store a pointer to the next element. \
+\'97 storage not contiguous (may be a gap between any pair of consecutive elements)\
+\'97 slow retrieval\
+\'97 fast insertion\
+head\'97> [][\uc0\u903 ]\'97> [][\u903 ] \'97-> [][\u903 ] -> [][\u903 ]\
+\'97 each element stores two things. he element, and a pointer (last element stores null pointer)\
+\'97 we always have a pointer to the first (or zeroth) element (typically called head)\
+\'97 theoretically speaking insertions are in O(1) so n insertions in O(n), same as arrays, but retrievals we don\'92t know (in O(n) <\'97 very bad!!) ->unless also have back pointer\
+\'97 optimize by creating pointer to back\
+\'97 theoretically fast where arrays are slow, slow where arrays are fast\
+head\'97> [][\uc0\u903 ]\'97> [][\u903 ] \'97-> [][\u903 ] -> [][\u903 ] <\'97back\
+\
+\'97\'97\'97\'97\'97\'97\'97 C++ Data Structures \'97\'97\'97\'97\'97\'97\'97\'97\'97\
+Arrays:\
+	dataType arr [preset size] = \{ \};\
+- A pointer to the memory address to the first element of the array\
+- Resizing is doubled when array end is located, if amount of elements in array is less than half of the array\'92s predetermined size the array size is halved.\
+\
+Integer Array [][][][][][][]\
+\'97 regular are storage\
+\'97 it can double in size when needed\
+Additions: \
+\'97 Append function: Add item to the back\
+\'97 insert function: Add item to specific location\
+	void insert (int index, int value);\
+\'97 Example: [5][7][9][3][2]\
+	insert(1,6):\
+	[5][6][7][9][3][2]\
+\'97 O(n) complexity (inserting close to the beginning requires shifting every other element one space to the right, so that\'92s order n worth of work \
+\'97 we can not simply overwrite index 1 with 6, so we need to make space for it by shifting every element starting at index one to the right (by 1 space). so if we are inserting close to the beginning of the array, it will take O(n) time (need to shift each element, each shift is O(1) and multiply that by n times -> O(n)).\
+\
+Linked List\
+\'97 Append function: add element to the end\
+\'97 Additions insert function:\
+	void insert(int index, int value);\
+\'97 Example: [5][\uc0\u903 ]\'97> [7][\u903 ]\'97> [9][\u903 ] \
+	insert(0,3);\
+		[3][\uc0\u903 ]\'97>[5][\u903 ]\'97> [7][\u903 ]\'97> [9][\u903 ]\
+\'97 You don\'92t have to do anything more than a pointer manipulation so this insertion is O(1)\
+\'97 insertions to the beginning is O(1). If someone is kind enough to give you a pointer to the middle In order to insert to the middle it would take O(1). You need to have a pointer with insertions. if you want to insert to the middle, its O(n), because \
+\'97 A linked list is both a queue and a stack because it allows you to insert to the beginning and end in constant time\
+\
+\
+//Create data type Link\
+struct Link\{\
+	int data; //data to save in link\
+	Link* next; //pointer to next link in linked list\
+\};\
+\
+//Create data type Linked List\
+struct LinkedList\{\
+	Link* head; \
+	\
+	//Constructor\
+	LinkedList()\{ \
+		head = NULL;\
+	\}\
+\
+	void append(int x)\{\
+		if (head == NULL)\{\
+			head = new Link();\
+			head -> data = x;\
+			head -> next = NULL;\
+		\}\
+		else\{\
+			Link* newNode = new Link();\
+			newNode -> data = x;\
+			newNode -> next = NULL;\
+			\
+			//now find the last element of the linked list (never change head pointer during\
+			//traversal so make new pointer and tell it to point where the head is pointing\
+			Link* temp = head;\
+			\
+			//Traversing a linked list\
+			while(temp -> next != NULL)\{ \
+			//as long as the link temp is pointing to has a next element\
+			// (a pointer to a next element), execute\
+				temp = temp -> next; //make temp point to where temp -> next pointing to\
+				//now temp is pointing where the next item\'92s pointer points\
+			\}\
+\
+			//At this point in the code temp is the last element of the linked list.\
+			//Now you need to make a pointer that points from temp to the the newNode\
+			\
+			temp -> next = newNode;\
+			\
+			//temp now points to second to last element of list and newNode has been added\
+		\}\
+		\
+\
+	\} //at end of append function temp and newNode pointers disappear and the \
+	  //Linkedlist and head remain\
+	\
+	//How do you print! (same traversal technique\
+	void print()\{\
+\
+		//first step: make a new pointer that points to the beginning \
+		while (temp != NULL)\{ //as long as temp is not the null pointer\
+			//Print\
+			std::cout << temp -> data << \'93 \'94;\
+			temp = temp -> next; \
+		\}\
+\
+		std::cout<<std::end; //new line after end of output\
+\
+	\}\
+\};\
+\
+//Using the above code it would take a long time to add to the list (always start at beginning and traverse through to the end)\
+struct LinkedList\{\
+	Link* head; \
+	Link*back;\
+	\
+	//Constructor\
+	LinkedList()\{ \
+		head = NULL;\
+		back = NULL; //when no links, both head and back point to same place\
+	\}\
+\
+	void append(int x)\{\
+		if (head == NULL)\{\
+			head = new Link();\
+			head -> data = x;\
+			head -> next = NULL;\
+			back = head; \
+			//when you have one link, it is both first and last, both head and back are same thing\
+		\}\
+		else\{\
+			Link* newNode = new Link();\
+			newNode -> data = x;\
+			newNode -> next = NULL;\
+			\
+			back -> next = newNode;\
+			back = back -> next; \
+			\
+			//temp now points to second to last element of list and newNode has been added\
+		\}\
+		\
+\
+	\} //at end of append function temp and newNode pointers disappear and the \
+	  //Linkedlist and head remain\
+	\
+	//How do you print! (same traversal technique\
+	void print()\{\
+\
+		//first step: make a new pointer that points to the beginning \
+		while (temp != NULL)\{ //as long as temp is not the null pointer\
+			//Print\
+			std::cout << temp -> data << \'93 \'94;\
+			temp = temp -> next; \
+		\}\
+\
+		std::cout<<std::end; //new line after end of output\
+\
+	\}\
+\};\
+\
+\
+\
+}

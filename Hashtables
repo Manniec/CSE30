@@ -1,0 +1,33 @@
+Hashtables
+- hashtables is basicly that your information is ordered into groups
+- 3 states data comes in:
+    - sorted
+    - unsorted
+    - hashtables
+Complexity
+    - evaluating a hashfunction should be O(1), easy to do. 
+    - A good function distributes the inputs equally among groups in hashtable
+        - everybox should be equally as likely to be filled by another
+        - decent hashfuction: sort words by first letter, (however x or z will have fewer words in it)
+        - bad hashfunction: sort by length of word (more likely word to be 5 letters long than 20)
+    - therefor inserting into the appropriate chain is O(1)
+    - Searching in a hashtable is O(1) for a good hashfuction because we pay O(1) to find the queue we need 
+      and when we find the queue we need we disregard most of the list 
+    - 5000000 / (26*26*26*26) -> average 10.9 operations to get result (for checking first 4 letters)
+    - hashtables usually take up more space
+
+hashtables implementation
+- 
+    std::vector<Queue> 11;
+    for (int i = 0; i < K; i++){
+        ht.pushback(new Queue)
+    }
+
+    if I want to insert the number 18
+    int x = 18
+    ht(f(i)) --> push (i);
+
+    hc vector w 10 empty queues in it
+
+     ht 
+    |  |

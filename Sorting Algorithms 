@@ -1,0 +1,200 @@
+##What is Sorting##
+- process of arranging items in an ordered sequence
+
+##Why Do We Sort##
+- makes it easier to find things
+
+##How do we sort?##
+- Go through and find the biggest number and take it out and put it in a new list 
+- OR go through and find the smallest number and add it to the new list
+
+ #Selection Sort#
+ - find the smallest element and put it in front (swap it w first one)
+ - invarient: condition that is always true at the end of each iteration of a loop, 
+ - in this case, the first i item of the array is sorted. Everything before ith object is sorted, everything to the left is not sorted
+ - repeat, swap next lowest item to front -> invarient moves up
+ - 1st itteration: sort through whole list, put smallest number in front:
+     1|3547892
+sorted unsorted
+     12|547893
+ sorted unsorted
+
+ - pseudocode:
+    function SelectionSort(A):
+        n <- length(A)
+        for i <- 0 to n do 
+            j <- positionOfMin(A, i, n) //good to break code into sub functions
+            swap(A[i], A[j])
+        end for 
+    end function
+
+    function positionOfMin(A,s,n)
+        v <- A[s] //minimum value
+        p <- s // invarient of this loop is p, has smallest value up to ith iteration
+        for i <- s to n do
+            if A[i] < v then
+                v <- A[i]
+                p <- i
+            end if
+        end for
+        return p
+    end function  
+
+ - practice translating pseudocode to actual code!
+ - selec takes alot of time as the number n of random numbers increases, (n^2)/2 -> time increases exponentially
+ - order of complexity is O(n^2), which is really bad
+ - in order to sort each item of the list you need to run through each item of the list 
+   (look through n items of the array to find the smallest)
+                sorted|unsorted
+    1       2       3   |   7       5       4       8       6
+    n  +  (n-1) + (n-2) + (n-3) + (n-4) + ...
+ - (n+1)*n/2 operations to sort the whole set 
+ - everyone runs insertion sort when sorting a hand of cards (basicly)
+ 
+  #Insertion Sort#
+  sorted|unsorted
+       5|3   7   2   4   1   8   6
+    - start at first unsorted item, makes sorted part one size bigger,
+       sorted|unsorted
+       5    3|7   2   4   1   8   6
+       3    5|7   2   4   1   8   6
+    - does sorted part need to be sorted, swap if needed, arrive at invariant again.
+            sorted|unsorted
+       3    5    7|2   4   1   8   6
+                sorted|unsorted
+       3    5    7   2|4   1   8   6
+                  <-> |
+       3    5    2   7|4   1   8   6
+             <->      |
+       3    2    5   7|4   1   8   6
+        <->           |
+       2    3    5   7|4   1   8   6
+    - Expand sorted part by one, Move new element to correct position by comparing it to item immediately to the left
+    - putting some of these numbers into the correct order takes less work than others
+    - With insertion sort you may have to do O(n) work for smaller numbers near the back of the array, 
+      so like selection sort O(n^2), but unlike selection sort there is a best case
+    - Insertion Sort is the best sorting algorithm when the function is already sorted (only one comparison needed per item)
+      impossible to sort faster than n log n if your doing comparison based sort.
+    - still pretty good for when something is close to being sorted (only a small fraction of the numbers are out of place)
+    - if you know that ur input is already almost sorted, no other algorithm does better than insertion sort.
+    - doesnt do so hot when something is in complete reverse 
+
+    - pseudocode:
+        function insertionSort (A)
+            n <- length(A)
+            for i<-1 to n do //start w second item bc first one sorted already (single item long always sorted)
+                j < i
+                while j > 0 ^ A[j-i] > A[j] //as long as you have a item infront, & the item infront is less than this item
+                    swap(A[j-1], A[j])
+                    j <- j -1
+                end while
+            end for
+        end function
+
+ #best case
+ 1 + 1 + 1 + 1 = n 
+ #worse case
+ n(n-1)/2 O(n^2)
+
+ #Lists of different sizes
+ - Sorting large lists is hard
+ - smaller lists are easier to sort
+ - An element of one element long is always already sorted
+
+ #Divide and Conquer/ Merge Sort Algorithm #
+ - if you dont know how to sort a list of 8 elements, try spliting it up into two smaller lists!
+     5 3 7 2 1 4 8 9
+   5 3 7 2  |  1 4 8 9
+  5 3 | 7 2 |  1 4  |  8 6
+ 5 | 3 | 7 | 2 | 1 | 4 | 8 | 6 -> now you have 8 sorted lists of one item each!
+ 
+ - notice just by spliting numbers appart they magically sort themselves
+ - if you have 8 sorted lists, its easier to combine them into 4 sorted lists, then 2, then 1 sorted list
+ - compare two sorted lists & merge
+ 3 5 | 2 7 | 1 4 | 6 8
+ - Look at first item in each list and pick smallest
+    3 5 | 2 7 
+    ^     ^     ->  3 vs 2 -> 2
+sorted|unsorted 
+    2 | 3 5 | 7
+        ^     ^ ->  3 vs 7 -> 3
+sorted|unsorted 
+  2 3 | 5 | 7
+        ^   ^   ->  5 vs 7 -> 5
+sorted|unsorted 
+ 2 3 5| |7 
+         ^      -> nothing else to compare 7 to 
+sorted|    
+      | 1 4 | 6 8
+        ^     ^   ->  1 vs 6  -> 1
+    1 | 4 | 6 8
+        ^   ^     ->  4 vs 6  -> 4
+  1 4 | | 6 8
+       ^ no items left to compare, just append -> 1 4 6 8
+
+ - You can cut something in half log(n) times!
+
+    5   13  21  54 | 4  19  37  76
+    ^                ^
+ - How many comparisons?
+ - O(n) comparisons. (n-1 comparisons per step, n is overall size of resulting list)
+ -pseudocode
+    Algorithm MergeSort(list):      //recursion (calls itself from within, always calling itself w smaller instance of problem then original)
+        If length(list) == 1:   //if your reducing the size, eventually it will become trivial, and you need a if statement for that for recursion
+            return list[0]
+        Else 
+            MergeSort(first_half_of_list)   //cut it in half & sort it with this algorithm
+            MergeSort(second_half_of_list)  //cut it in half & sort it with this algorithm
+
+            Merge(first_half, second_half)
+        End if
+    end algorithm
+
+    algorithm Merge(list1, list2): // Assume they are sorted already 
+        result = empty list
+        
+        left = 0 //pointer to 0th element of list 
+        right = 0 // pointer to second list 
+
+        While (left < length(list1) And right < length(list2)) Do
+            if list1[left] < list2[right] then 
+                result.append(list1[left])
+                left = left + 1
+            else
+                result.append(list2[right])
+                right = right + 1
+            end if 
+
+    #Complexity of Merge#
+    - does merge have a best and a worse case? NO 
+        5   7   9   4 //call MergeSort, is length(list) ==1? NO
+        MergeSort([5,7,9,4]) -> 
+        MergeSort([5,7]) ->                     | MergeSort([9,4]) ->
+        MergeSort([5])     | MergeSort([7])     | MergeSort([9])       MergeSort([4])
+        ^//length==1? Yes  | ^//length==1? Yes  |   
+        returns 5          | returns 7          |             
+                    Merge(5,7)                  |            Merge(9,4)
+                    return[5,7]                 |            returns[4,9]
+                                        Merge([5,7],[4,9])
+                                        returns [4,5,7,9]
+
+    - [1, 2, 3, 4] -> already sorted. If this was insertionSort this would take no time
+    - for merge sort you still need to preform all the comparisons because it will keep 
+      spliting aslong as the list is length>1
+    - one comparison less than before, but 
+    - merging takes O(n), we do it O(log n) number of times, so  O(nlog n) times no matter
+      what the input looks like
+    - worse case is the best you can do theoreticly. practically tho merge sort is pretty slow 
+      (our computers arnt very well equiped to handle recursion because stack space is limited)
+    - basicly it crashes really quickly in practice, but theoreticly its a nice algorithm
+
+- Technically dont need to use MergeSort() inside of MergeSort, it could be any different sort algorithm
+- 
+#Quick Sort#
+- everything to the left and right of a number, move it
+- pick a pivot
+    5   7   1   3   9   6   2   9
+    ^           -               ^   // pivot in the middle, compare 5 & 9 to pivot, see if it belongs there, 
+    ^           -           ^       //9 belongs, move pointer. 2 and 5 are on wrong sides of pivot, -> swap
+    2   7   1   3   9   6   5   9   //
+        ^       -       ^           //6 is on the right side.
